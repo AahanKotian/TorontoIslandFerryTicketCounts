@@ -50,6 +50,22 @@ FROM TorontoIslandFerryTicketCounts;
 -- Results: 48.10786696678449 average redemptions and 48.97279255068767 average sales
 __________________________________________________________________
 
+--To find the rows with the highest SalesCount and the highest RedemptionCount
+
+SELECT *
+FROM TorontoIslandFerryTicketCounts
+WHERE CAST("RedemptionCount" AS INTEGER) = (
+    SELECT MAX(CAST("RedemptionCount" AS INTEGER))
+    FROM TorontoIslandFerryTicketCounts
+)
+OR CAST("SalesCount" AS INTEGER) = (
+    SELECT MAX(CAST("SalesCount" AS INTEGER))
+    FROM TorontoIslandFerryTicketCounts
+);
+
+--Result: ID 33772 which had 7216 for max_redemptions and 7229 max_sales
+__________________________________________________________________
+
 --To aggregate the data by day (assuming Timestamp is in YYYY-MM-DD format):
 
 SELECT Timestamp, 
@@ -58,6 +74,4 @@ SELECT Timestamp,
 FROM TorontoIslandFerryTicketCounts
 GROUP BY Timestamp
 ORDER BY Timestamp;
-
--- Results: 48.10786696678449 average redemptions and 48.97279255068767 average sales
 ___________________________________________________________________
